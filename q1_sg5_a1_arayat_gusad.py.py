@@ -1,47 +1,45 @@
 class hero:
-    def __init__(self, name, attributes, hp=[],):
-        self.name=name
-        self.attributes=attributes
-        self.hp=hp
-    def take_damage(self, damage,name_list):
-        self.name_list=name_list
-        self.damage=damage 
-        self.hp=hp
-        hp[name_list]=hp.append(hp[name_list]-damage)
-        if hp[name_list] < 0:
-            hp[name_list]=0
-        print (self.name,"'s health is now ",hp,"/100 !!!")
+    def __init__(self, name, attribute):
+        self.name = name
+        self.attribute = attribute
+        self.hp = 100
 
-name=[]
-hp=[]
-attributes=[]
-user_dec=1
+    def take_damage(self, damage):
+        self.hp = max(0, self.hp - damage)
+        print(f"{self.name}'s health is now {self.hp}/100!")
 
-while True:
-    while user_dec==2:
-        while user_dec==1:
-            name= name.append(str(input("Enter the name of your hero:")))
-            hp=hp.append(100)
-            attributes= attributes.append(str(input("Enter an attribute your hero has:")))
-            user_dec= str(input('''Enter "1" to make another hero
-            Enter "2" to damage your heroes
-            Enter "3" to escape program
-            '''))
-        for i in len(name):
-            print (f"{i+1}. {name[1]}")
-        user_choice2=str(input("Who do you like to damage? Enter number:"))
-        user_choice3=str(input("Enter damage:"))
 
-        hp.take_damage(user_choice2,user_choice3)
+heroes = []
+user_decision = 1
 
-        for i in len(name):
-            print (f"{name[i]}'s ,with the attribute {attributes[i]}, has {hp[i]}/100 hp left!")
-       
-        user_dec= str(input('''Enter "1" to make another hero
-        Enter "2" to damage your heroes
-        Enter "3" to escape program
-        '''))
-    break
+while user_decision != 3:
+    if user_decision == 1:
+        name = input("Enter the name of your hero: ")
+        attribute = input("Enter an attribute your hero has: ")
+        heroes.append(hero(name, attribute))
+    elif user_decision == 2:
+        if not heroes:
+            print("Create a hero first.")
+        else:
+            for index, hero in enumerate(heroes, start=1):
+                print(f"{index}. {hero.name}")
 
+            hero_number = int(input("Who do you want to damage? Enter number: "))
+            damage = int(input("Enter damage: "))
+
+            if 1 <= hero_number <= len(heroes):
+                heroes[hero_number - 1].take_damage(damage)
+            else:
+                print("That hero number is not valid.")
+
+    for hero in heroes:
+        print(f"{hero.name}, with the attribute {hero.attribute}, has {hero.hp}/100 hp left!")
+
+    user_decision = int(input('''Enter "1" to make another hero
+Enter "2" to damage your heroes
+Enter "3" to escape program
+'''))
+
+        
         
         
